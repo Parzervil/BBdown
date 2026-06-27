@@ -67,21 +67,23 @@ jobs:
       
       - uses: actions/checkout@v4
       
+      - name: Download .NET SDK tarball
+        run: |
+          DOTNET_SDK_VERSION='${{ env.DOTNET_SDK_VERSION }}'
+          curl -fsSL "https://builds.dotnet.microsoft.com/dotnet/Sdk/${DOTNET_SDK_VERSION}/dotnet-sdk-${DOTNET_SDK_VERSION}-linux-x64.tar.gz" -o dotnet-sdk.tar.gz
+          mkdir -p $HOME/.dotnet
+          tar -xzf dotnet-sdk.tar.gz -C $HOME/.dotnet
+          $HOME/.dotnet/dotnet --version
+      
       - name: Build arm64 in cross container
         run: |
           docker run --rm \
             -v "$PWD:/workspace" \
+            -v "$HOME/.dotnet:/opt/dotnet:ro" \
             -w /workspace \
             mcr.microsoft.com/dotnet-buildtools/prereqs:ubuntu-18.04-cross-arm64-20220312201346-b2c2436 \
             bash -c "
               set -e
-              apt-get update
-              DEBIAN_FRONTEND=noninteractive apt-get install -y wget ca-certificates
-              DOTNET_SDK_VERSION='${{ env.DOTNET_SDK_VERSION }}'
-              DOTNET_SDK_URL=\"https://builds.dotnet.microsoft.com/dotnet/Sdk/\${DOTNET_SDK_VERSION}/dotnet-sdk-\${DOTNET_SDK_VERSION}-linux-x64.tar.gz\"
-              wget -nv \"\${DOTNET_SDK_URL}\" -O dotnet-sdk.tar.gz
-              mkdir -p /opt/dotnet
-              tar -xzf dotnet-sdk.tar.gz -C /opt/dotnet
               export PATH=\"/opt/dotnet:\$PATH\"
               dotnet --version
               dotnet publish BBDown -r linux-arm64 -c Release -p:StripSymbols=true -p:CppCompilerAndLinker=clang-9 -p:SysRoot=/crossrootfs/arm64 -o /workspace/artifact
