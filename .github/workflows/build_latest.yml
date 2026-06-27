@@ -62,16 +62,27 @@ jobs:
   build-linux-arm64:
     
     runs-on: ubuntu-latest
-    container: mcr.microsoft.com/dotnet-buildtools/prereqs:ubuntu-18.04-cross-arm64-20220312201346-b2c2436
     
     steps:
       
       - uses: actions/checkout@v4
-      - name: Set up dotnet
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: ${{ env.DOTNET_SDK_VERSION }}
-      - run: dotnet publish BBDown -r linux-arm64 -c Release -p:StripSymbols=true -p:CppCompilerAndLinker=clang-9 -p:SysRoot=/crossrootfs/arm64 -o artifact
+      
+      - name: Build arm64 in cross container
+        run: |
+          docker run --rm \
+            -v "$PWD:/workspace" \
+            -w /workspace \
+            mcr.microsoft.com/dotnet-buildtools/prereqs:ubuntu-18.04-cross-arm64-20220312201346-b2c2436 \
+            bash -c "
+              set -e
+              apt-get update
+              DEBIAN_FRONTEND=noninteractive apt-get install -y wget
+              wget -q https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh
+              chmod +x dotnet-install.sh
+              ./dotnet-install.sh --channel 8.0 --install-dir /opt/dotnet
+              export PATH=\"/opt/dotnet:\$PATH\"
+              dotnet publish BBDown -r linux-arm64 -c Release -p:StripSymbols=true -p:CppCompilerAndLinker=clang-9 -p:SysRoot=/crossrootfs/arm64 -o /workspace/artifact
+            "
       
       - name: Upload Artifact[linux-arm64]
         uses: actions/upload-artifact@v4
