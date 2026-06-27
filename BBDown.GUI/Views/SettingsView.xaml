@@ -1,0 +1,69 @@
+<UserControl x:Class="BBDown.GUI.Views.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Border Background="White"
+                CornerRadius="8"
+                Padding="18"
+                BorderBrush="#FFE0E0E0"
+                BorderThickness="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Margin="0,0,12,0">
+                    <TextBlock Text="输出与解析"
+                               FontSize="18"
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,12" />
+
+                    <TextBlock Text="编码优先级" FontWeight="SemiBold" Margin="0,0,0,8" />
+                    <TextBox Text="{Binding EncodingPriority, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <TextBlock Text="画质优先级" FontWeight="SemiBold" Margin="0,14,0,8" />
+                    <TextBox Text="{Binding DfnPriority, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <TextBlock Text="单P文件名模板" FontWeight="SemiBold" Margin="0,14,0,8" />
+                    <TextBox Text="{Binding FilePattern, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <TextBlock Text="多P文件名模板" FontWeight="SemiBold" Margin="0,14,0,8" />
+                    <TextBox Text="{Binding MultiFilePattern, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Margin="12,0,0,0">
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="下载与混流"
+                                   FontSize="18"
+                                   FontWeight="SemiBold"
+                                   VerticalAlignment="Center" />
+                        <Button Grid.Column="1"
+                                Content="保存设置"
+                                Command="{Binding SaveSettingsCommand}"
+                                Style="{StaticResource PrimaryButton}" />
+                    </Grid>
+
+                    <WrapPanel>
+                        <CheckBox Content="使用 aria2c" IsChecked="{Binding UseAria2c}" Margin="0,0,14,6" />
+                        <CheckBox Content="多线程" IsChecked="{Binding MultiThread}" Margin="0,0,14,6" />
+                        <CheckBox Content="使用 MP4Box" IsChecked="{Binding UseMp4box}" Margin="0,0,14,6" />
+                        <CheckBox Content="显示所有分P" IsChecked="{Binding ShowAll}" Margin="0,0,14,6" />
+                        <CheckBox Content="调试日志" IsChecked="{Binding Debug}" Margin="0,0,14,6" />
+                    </WrapPanel>
+
+                    <TextBlock Text="说明"
+                               FontWeight="SemiBold"
+                               Margin="0,14,0,8" />
+                    <TextBlock Text="本页先承接现有高级参数。后续阶段会继续补齐 aria2c 参数、二进制路径、UPOS、PCDN、配置持久化等设置。"
+                               Foreground="#FF666666"
+                               TextWrapping="Wrap" />
+                </StackPanel>
+            </Grid>
+        </Border>
+    </ScrollViewer>
+</UserControl>

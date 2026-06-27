@@ -1,0 +1,58 @@
+<UserControl x:Class="BBDown.GUI.Views.ServiceView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Border Background="White"
+            CornerRadius="8"
+            Padding="18"
+            BorderBrush="#FFE0E0E0"
+            BorderThickness="1">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0"
+                       Text="API 服务"
+                       FontSize="18"
+                       FontWeight="SemiBold"
+                       Margin="0,0,0,12" />
+
+            <StackPanel Grid.Row="1" Margin="0,0,0,18">
+                <TextBlock Text="监听地址" FontWeight="SemiBold" Margin="0,0,0,8" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0"
+                             Text="{Binding Service.ListenUrl, UpdateSourceTrigger=PropertyChanged}" />
+                    <Button Grid.Column="1"
+                            Content="启动"
+                            Command="{Binding Service.StartCommand}"
+                            Style="{StaticResource PrimaryButton}"
+                            Margin="10,0,8,0" />
+                    <Button Grid.Column="2"
+                            Content="停止"
+                            Command="{Binding Service.StopCommand}"
+                            Style="{StaticResource SecondaryButton}" />
+                </Grid>
+                <TextBlock Text="{Binding Service.StatusText}"
+                           Foreground="#FF666666"
+                           TextWrapping="Wrap"
+                           Margin="0,10,0,0" />
+            </StackPanel>
+
+            <StackPanel Grid.Row="2">
+                <TextBlock Text="常用路径"
+                           FontWeight="SemiBold"
+                           Margin="0,0,0,8" />
+                <TextBlock Text="/get-tasks&#x0a;/get-tasks/running&#x0a;/get-tasks/finished&#x0a;/add-task&#x0a;/remove-finished"
+                           FontFamily="Consolas"
+                           Foreground="#FF444444" />
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

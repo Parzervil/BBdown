@@ -1,0 +1,42 @@
+<UserControl x:Class="BBDown.GUI.Views.TaskQueueView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Border Background="White"
+            CornerRadius="8"
+            Padding="18"
+            BorderBrush="#FFE0E0E0"
+            BorderThickness="1">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Margin="0,0,0,14">
+                <TextBlock Text="任务队列"
+                           FontSize="18"
+                           FontWeight="SemiBold"
+                           Margin="0,0,0,6" />
+                <TextBlock Text="当前阶段先记录由顶部下载按钮创建的任务，后续会接入并发、取消、重试和更精确进度。"
+                           Foreground="#FF666666"
+                           TextWrapping="Wrap" />
+            </StackPanel>
+
+            <DataGrid Grid.Row="1"
+                      ItemsSource="{Binding Tasks.Jobs}"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="True"
+                      CanUserAddRows="False"
+                      GridLinesVisibility="Horizontal"
+                      HeadersVisibility="Column">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="状态" Binding="{Binding Status}" Width="90" />
+                    <DataGridTextColumn Header="标题/地址" Binding="{Binding Title}" Width="*" />
+                    <DataGridTextColumn Header="进度" Binding="{Binding Progress, StringFormat={}{0:0}%}" Width="80" />
+                    <DataGridTextColumn Header="输出目录" Binding="{Binding OutputPath}" Width="180" />
+                    <DataGridTextColumn Header="错误" Binding="{Binding ErrorMessage}" Width="220" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </Border>
+</UserControl>

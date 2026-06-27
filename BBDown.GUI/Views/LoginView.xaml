@@ -1,0 +1,52 @@
+<UserControl x:Class="BBDown.GUI.Views.LoginView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Border Background="White"
+            CornerRadius="8"
+            Padding="18"
+            BorderBrush="#FFE0E0E0"
+            BorderThickness="1">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.1*" />
+                <ColumnDefinition Width="1.4*" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" Margin="0,0,16,0">
+                <TextBlock Text="登录"
+                           FontSize="18"
+                           FontWeight="SemiBold"
+                           Margin="0,0,0,12" />
+                <Button Content="WEB 登录"
+                        Command="{Binding LoginWebCommand}"
+                        Style="{StaticResource PrimaryButton}"
+                        Margin="0,0,0,10" />
+                <Button Content="TV 登录"
+                        Command="{Binding LoginTvCommand}"
+                        Style="{StaticResource SecondaryButton}" />
+                <TextBlock Text="二维码窗口和登录状态会在后续阶段补齐。"
+                           Foreground="#FF666666"
+                           TextWrapping="Wrap"
+                           Margin="0,14,0,0" />
+            </StackPanel>
+
+            <StackPanel Grid.Column="1">
+                <TextBlock Text="手动凭据"
+                           FontSize="18"
+                           FontWeight="SemiBold"
+                           Margin="0,0,0,12" />
+                <TextBlock Text="Cookie" FontWeight="SemiBold" Margin="0,0,0,8" />
+                <PasswordBox ToolTip="后续阶段会改为安全绑定和持久化" />
+                <TextBox Text="{Binding Cookie, UpdateSourceTrigger=PropertyChanged}"
+                         Margin="0,8,0,0"
+                         ToolTip="临时明文输入，后续阶段会隐藏处理" />
+
+                <TextBlock Text="AccessToken" FontWeight="SemiBold" Margin="0,14,0,8" />
+                <PasswordBox ToolTip="后续阶段会改为安全绑定和持久化" />
+                <TextBox Text="{Binding AccessToken, UpdateSourceTrigger=PropertyChanged}"
+                         Margin="0,8,0,0"
+                         ToolTip="临时明文输入，后续阶段会隐藏处理" />
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>
