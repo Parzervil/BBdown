@@ -50,7 +50,7 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ env.DOTNET_SDK_VERSION }}
-      - run: apt-get install -y libicu-dev libcurl4-openssl-dev zlib1g-dev libkrb5-dev
+      - run: apt-get install -y clang build-essential libicu-dev libcurl4-openssl-dev zlib1g-dev libkrb5-dev
       - run: dotnet publish BBDown -r linux-x64 -c Release -o artifact
       
       - name: Upload Artifact[linux-x64]
@@ -62,7 +62,7 @@ jobs:
   build-linux-arm64:
     
     runs-on: ubuntu-latest
-    container: mcr.microsoft.com/dotnet-buildtools/prereqs:ubuntu-20.04-cross-arm64-20220312191638-b2c2436
+    container: mcr.microsoft.com/dotnet-buildtools/prereqs:ubuntu-18.04-cross-arm64-20220312201346-b2c2436
     
     steps:
       
